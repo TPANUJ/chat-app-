@@ -66,14 +66,14 @@ export async function register(req,res){
         sessionId: session._id
     }, config.JWT_SECRET,
 {
-    expiresIn: "15m"
+    expiresIn: "25m"
         })  
 
   
 
 res.cookie("refreshToken", refreshToken, {//-----8
   httpOnly: true,
-  secure: true,
+  secure: false,
   sameSite: "lax",
   maxAge: 24 * 60 * 60 * 1000
 });
@@ -177,7 +177,7 @@ export async function login(req, res){
 
 res.cookie("refreshToken", refreshToken, {
   httpOnly: true,
-  secure: true,
+  secure: false,
   sameSite: "lax",
   maxAge: 7*24 * 60 * 60 * 1000
 });
@@ -239,7 +239,7 @@ export async function refreshToken(req, res){
 
     res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000
     })

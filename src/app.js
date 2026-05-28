@@ -18,27 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev')); //ye middleware req res ka record rakhte hai
 
-io.use((socket, next) => {
 
-    try {
-
-        const token =
-            socket.handshake.auth.token;
-
-        const decoded =
-            jwt.verify(token, "secret");
-
-        socket.userId = decoded.id;
-
-        next();
-
-    } catch (error) {
-
-        next(new Error("Unauthorized"));
-
-    }
-
-});
 
 
 app.get("/",(req,res)=>{

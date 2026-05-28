@@ -4,7 +4,7 @@ import connectDB  from "./src/config/database.js";
 
 connectDB();
 
-const expressServer = app.listen(4400,()=> {
+const expressServer = app.listen(3001,()=> {
     console.log("server is running on port 3000");
     
 })
@@ -22,6 +22,28 @@ const io = new Server(expressServer,{
 
 
 })
+
+io.use((socket, next) => {
+
+    try {
+
+        const token =
+            socket.handshake.auth.token;
+
+        const decoded =
+            jwt.verify(token, "secret");
+
+        socket.userId = decoded.id;
+
+        next();
+
+    } catch (error) {
+
+        next(new Error("Unauthorized"));
+
+    }
+
+});
 
 io.on('connect', socket => {
     console.log(socket.id), "has joined the server!";
